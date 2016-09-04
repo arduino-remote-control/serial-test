@@ -12,16 +12,15 @@ def worker():
         print(value)
 
 def sendBinary(value):
-    value = 'c;%s' % value
     print("Sending '%s'" % value)
     for i in value.ljust(10, ' '):
         ser.write(binascii.a2b_qp(i))
 
+t = threading.Thread(target=worker)
+t.start()
+
 if __name__ == "__main__":
     print("Serial cli")
-
-    t = threading.Thread(target=worker)
-    t.start()
 
     for line in sys.stdin:
         cmd = line.splitlines()[0]
