@@ -1,6 +1,7 @@
 """ Socket UDP Server """
 import socket
-import main
+#import main
+import sc_module
 
 PORT = 5555
 IP = '192.168.0.9'
@@ -16,9 +17,11 @@ if __name__ == "__main__":
 
     while True:
         data, addr = sock.recvfrom(1024)
-        data = data.decode('utf-8')
-        print("Recv {}: {}".format(addr, data))
-        if data[0] == 'c':
-            main.sendBinary(data)
-        elif data[0] == 'a':
-            sock.sendto(str.encode("Teste Arduino"), addr)
+        #data = data.decode('utf-8')
+        recv = sc_module.to_class(data)
+        cmd = '{};{}'.format(recv[0], recv[1])
+        print("Recv {}: {}".format(addr, str(cmd)))
+        #if data[0] == 'c':
+            #main.sendBinary(data)
+        #elif data[0] == 'a':
+        sock.sendto(str.encode("Teste Arduino"), addr)
